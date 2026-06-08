@@ -2,7 +2,9 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AuthModule } from "./auth/auth.module";
+import { BranchesModule } from "./branches/branches.module";
 import { DatabaseModule } from "./database/database.module";
+import { RestaurantsModule } from "./restaurants/restaurants.module";
 
 @Module({
   imports: [
@@ -11,7 +13,9 @@ import { DatabaseModule } from "./database/database.module";
       envFilePath: ["../../.env", ".env"]
     }),
     AuthModule,
-    DatabaseModule
+    BranchesModule,
+    DatabaseModule,
+    RestaurantsModule
   ],
   controllers: [AppController]
 })

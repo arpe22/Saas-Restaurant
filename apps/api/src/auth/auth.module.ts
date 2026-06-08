@@ -5,6 +5,7 @@ import type { JwtModuleOptions } from "@nestjs/jwt";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
+import { PermissionsGuard } from "./guards/permissions.guard";
 import { DatabaseModule } from "../database/database.module";
 
 type JwtExpiresIn = NonNullable<JwtModuleOptions["signOptions"]>["expiresIn"];
@@ -34,7 +35,7 @@ type JwtExpiresIn = NonNullable<JwtModuleOptions["signOptions"]>["expiresIn"];
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthGuard],
-  exports: [AuthService, JwtAuthGuard]
+  providers: [AuthService, JwtAuthGuard, PermissionsGuard],
+  exports: [AuthService, JwtAuthGuard, JwtModule, PermissionsGuard]
 })
 export class AuthModule {}

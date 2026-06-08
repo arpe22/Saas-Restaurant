@@ -105,6 +105,100 @@ Abrir Prisma Studio:
 npm run prisma:studio
 ```
 
+## Ejemplos de requests
+
+Login:
+
+```bash
+curl -X POST http://localhost:3001/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"owner@example.com","password":"Password123!"}'
+```
+
+Guardar el access token:
+
+```bash
+TOKEN="access-token"
+```
+
+Crear restaurante:
+
+```bash
+curl -X POST http://localhost:3001/restaurants \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Demo Restaurant","slug":"demo-restaurant"}'
+```
+
+Listar restaurantes:
+
+```bash
+curl http://localhost:3001/restaurants \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Ver restaurante por ID:
+
+```bash
+curl http://localhost:3001/restaurants/$RESTAURANT_ID \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Actualizar restaurante:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Demo Restaurant Updated"}'
+```
+
+Desactivar restaurante:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Crear sucursal:
+
+```bash
+curl -X POST http://localhost:3001/restaurants/$RESTAURANT_ID/branches \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Centro","slug":"centro"}'
+```
+
+Listar sucursales por restaurante:
+
+```bash
+curl http://localhost:3001/restaurants/$RESTAURANT_ID/branches \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Ver sucursal por ID:
+
+```bash
+curl http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Actualizar sucursal:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Centro Updated"}'
+```
+
+Desactivar sucursal:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 ## Estado actual
 
 Esta base solo incluye configuracion inicial, scripts, frontend minimo, backend minimo y una conexion basica a PostgreSQL desde NestJS usando Prisma. Los modulos de negocio se agregaran despues.
