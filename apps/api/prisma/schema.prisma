@@ -7,10 +7,129 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model SystemSetting {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     String
+enum EntityStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
+enum RoleScope {
+  SYSTEM
+  RESTAURANT
+}
+
+model Restaurant {
+  id        String       @id @default(cuid())
+  name      String
+  slug      String       @unique
+  status    EntityStatus @default(ACTIVE)
+  branches  Branch[]
+  users     User[]
+  roles     Role[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  deletedAt DateTime?
+
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model Branch {
+  id           String       @id @default(cuid())
+  restaurantId String
+  name         String
+  slug         String
+  status       EntityStatus @default(ACTIVE)
+  restaurant   Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  users        User[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+
+  @@unique([restaurantId, slug])
+  @@index([restaurantId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model User {
+  id           String       @id @default(cuid())
+  restaurantId String
+  branchId     String?
+  email        String
+  passwordHash String
+  firstName    String?
+  lastName     String?
+  status       EntityStatus @default(ACTIVE)
+  restaurant   Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  branch       Branch?      @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  roles        UserRole[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+
+  @@unique([restaurantId, email])
+  @@index([email])
+  @@index([restaurantId])
+  @@index([branchId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model Role {
+  id           String           @id @default(cuid())
+  restaurantId String?
+  name         String
+  description  String?
+  scope        RoleScope        @default(RESTAURANT)
+  status       EntityStatus     @default(ACTIVE)
+  restaurant   Restaurant?      @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  users        UserRole[]
+  permissions  RolePermission[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  deletedAt    DateTime?
+
+  @@unique([restaurantId, name])
+  @@index([restaurantId])
+  @@index([scope])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  key         String           @unique
+  name        String
+  description String?
+  roles       RolePermission[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deletedAt   DateTime?
+
+  @@index([deletedAt])
+}
+
+model UserRole {
+  userId    String
+  roleId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  @@id([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+
+  @@id([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
 }

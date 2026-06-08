@@ -28,8 +28,7 @@ restaurant-saas/
 npm install
 cp .env.example .env
 npm run db:up
-npm run prisma:generate
-npm run prisma:push
+npm run prisma:migrate
 ```
 
 En Windows PowerShell, si no tienes `cp`, usa:
@@ -82,16 +81,28 @@ npm run db:down
 
 El esquema inicial vive en `apps/api/prisma/schema.prisma`.
 
-Generar Prisma Client:
+Aplicar migraciones locales y regenerar Prisma Client:
+
+```bash
+npm run prisma:migrate
+```
+
+Aplicar migraciones en un ambiente ya preparado:
+
+```bash
+npm run prisma:migrate:deploy
+```
+
+Regenerar Prisma Client sin cambiar la base de datos:
 
 ```bash
 npm run prisma:generate
 ```
 
-Sincronizar el esquema inicial con PostgreSQL:
+Abrir Prisma Studio:
 
 ```bash
-npm run prisma:push
+npm run prisma:studio
 ```
 
 ## Estado actual
