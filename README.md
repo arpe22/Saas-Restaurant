@@ -29,6 +29,7 @@ npm install
 cp .env.example .env
 npm run db:up
 npm run prisma:migrate
+npm run prisma:seed
 ```
 
 En Windows PowerShell, si no tienes `cp`, usa:
@@ -85,6 +86,12 @@ Aplicar migraciones locales y regenerar Prisma Client:
 
 ```bash
 npm run prisma:migrate
+```
+
+Sembrar permisos iniciales:
+
+```bash
+npm run prisma:seed
 ```
 
 Aplicar migraciones en un ambiente ya preparado:
@@ -196,6 +203,72 @@ Desactivar sucursal:
 
 ```bash
 curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Crear rol:
+
+```bash
+curl -X POST http://localhost:3001/roles \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"manager","description":"Restaurant manager"}'
+```
+
+Listar roles del restaurante actual:
+
+```bash
+curl http://localhost:3001/roles \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Editar rol:
+
+```bash
+curl -X PATCH http://localhost:3001/roles/$ROLE_ID \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"description":"Updated role description"}'
+```
+
+Desactivar rol:
+
+```bash
+curl -X PATCH http://localhost:3001/roles/$ROLE_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Asignar permisos a un rol:
+
+```bash
+curl -X POST http://localhost:3001/roles/$ROLE_ID/permissions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"permissionKeys":["roles.manage","users.manage"]}'
+```
+
+Quitar permisos de un rol:
+
+```bash
+curl -X DELETE http://localhost:3001/roles/$ROLE_ID/permissions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"permissionKeys":["users.manage"]}'
+```
+
+Asignar rol a usuario:
+
+```bash
+curl -X POST http://localhost:3001/users/$USER_ID/roles \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"roleId\":\"$ROLE_ID\"}"
+```
+
+Quitar rol a usuario:
+
+```bash
+curl -X DELETE http://localhost:3001/users/$USER_ID/roles/$ROLE_ID \
   -H "Authorization: Bearer $TOKEN"
 ```
 
