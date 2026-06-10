@@ -56,7 +56,7 @@ model User {
   id           String       @id @default(cuid())
   restaurantId String
   branchId     String?
-  email        String
+  email        String       @unique
   passwordHash String
   firstName    String?
   lastName     String?
@@ -69,7 +69,6 @@ model User {
   deletedAt    DateTime?
 
   @@unique([restaurantId, email])
-  @@index([email])
   @@index([restaurantId])
   @@index([branchId])
   @@index([status])

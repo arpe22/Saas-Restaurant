@@ -206,6 +206,70 @@ curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_
   -H "Authorization: Bearer $TOKEN"
 ```
 
+Crear usuario:
+
+```bash
+curl -X POST http://localhost:3001/users \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"staff@example.com","password":"Password123!","firstName":"Staff","lastName":"User"}'
+```
+
+Listar usuarios del restaurante actual:
+
+```bash
+curl http://localhost:3001/users \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Ver usuario por ID:
+
+```bash
+curl http://localhost:3001/users/$USER_ID \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Actualizar usuario:
+
+```bash
+curl -X PATCH http://localhost:3001/users/$USER_ID \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"firstName":"Staff Updated"}'
+```
+
+Asignar sucursal a usuario:
+
+```bash
+curl -X PATCH http://localhost:3001/users/$USER_ID/branch \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"branchId\":\"$BRANCH_ID\"}"
+```
+
+Cambiar contraseña:
+
+```bash
+curl -X PATCH http://localhost:3001/users/$USER_ID/password \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"password":"NewPassword123!"}'
+```
+
+Bloquear usuario:
+
+```bash
+curl -X PATCH http://localhost:3001/users/$USER_ID/block \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Desactivar usuario:
+
+```bash
+curl -X PATCH http://localhost:3001/users/$USER_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 Crear rol:
 
 ```bash
@@ -274,4 +338,4 @@ curl -X DELETE http://localhost:3001/users/$USER_ID/roles/$ROLE_ID \
 
 ## Estado actual
 
-Esta base solo incluye configuracion inicial, scripts, frontend minimo, backend minimo y una conexion basica a PostgreSQL desde NestJS usando Prisma. Los modulos de negocio se agregaran despues.
+Esta base incluye configuracion inicial, scripts, frontend minimo, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, roles, permisos y usuarios.

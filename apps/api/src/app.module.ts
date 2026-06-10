@@ -6,6 +6,7 @@ import { BranchesModule } from "./branches/branches.module";
 import { DatabaseModule } from "./database/database.module";
 import { RolesModule } from "./roles/roles.module";
 import { RestaurantsModule } from "./restaurants/restaurants.module";
+import { UsersModule } from "./users/users.module";
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { RestaurantsModule } from "./restaurants/restaurants.module";
     BranchesModule,
     DatabaseModule,
     RolesModule,
-    RestaurantsModule
+    RestaurantsModule,
+    UsersModule
   ],
   controllers: [AppController]
 })
