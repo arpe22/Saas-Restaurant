@@ -247,7 +247,7 @@ curl -X PATCH http://localhost:3001/users/$USER_ID/branch \
   -d "{\"branchId\":\"$BRANCH_ID\"}"
 ```
 
-Cambiar contraseña:
+Cambiar contrasena:
 
 ```bash
 curl -X PATCH http://localhost:3001/users/$USER_ID/password \
@@ -268,6 +268,102 @@ Desactivar usuario:
 ```bash
 curl -X PATCH http://localhost:3001/users/$USER_ID/deactivate \
   -H "Authorization: Bearer $TOKEN"
+```
+
+Crear categoria:
+
+```bash
+curl -X POST http://localhost:3001/menu/categories \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Entradas","description":"Platos para compartir","imageUrl":"https://example.com/entradas.jpg"}'
+```
+
+Listar categorias del restaurante actual:
+
+```bash
+curl http://localhost:3001/menu/categories \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Editar categoria:
+
+```bash
+curl -X PATCH http://localhost:3001/menu/categories/$CATEGORY_ID \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"description":"Entradas y botanas"}'
+```
+
+Desactivar categoria:
+
+```bash
+curl -X PATCH http://localhost:3001/menu/categories/$CATEGORY_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Crear producto:
+
+```bash
+curl -X POST http://localhost:3001/menu/products \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"categoryId\":\"$CATEGORY_ID\",\"name\":\"Tacos de camaron\",\"description\":\"Orden de 3 piezas\",\"price\":189.50,\"imageUrl\":\"https://example.com/tacos.jpg\",\"isAvailable\":true}"
+```
+
+Listar productos por restaurante:
+
+```bash
+curl http://localhost:3001/menu/products \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Listar productos por categoria:
+
+```bash
+curl http://localhost:3001/menu/categories/$CATEGORY_ID/products \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Editar producto:
+
+```bash
+curl -X PATCH http://localhost:3001/menu/products/$PRODUCT_ID \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Tacos de camaron estilo casa","isAvailable":true}'
+```
+
+Cambiar precio de producto:
+
+```bash
+curl -X PATCH http://localhost:3001/menu/products/$PRODUCT_ID/price \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"price":199.00}'
+```
+
+Activar producto:
+
+```bash
+curl -X PATCH http://localhost:3001/menu/products/$PRODUCT_ID/activate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Desactivar producto:
+
+```bash
+curl -X PATCH http://localhost:3001/menu/products/$PRODUCT_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Marcar producto como disponible/no disponible:
+
+```bash
+curl -X PATCH http://localhost:3001/menu/products/$PRODUCT_ID/availability \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"isAvailable":false}'
 ```
 
 Crear rol:
@@ -308,7 +404,7 @@ Asignar permisos a un rol:
 curl -X POST http://localhost:3001/roles/$ROLE_ID/permissions \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"permissionKeys":["roles.manage","users.manage"]}'
+  -d '{"permissionKeys":["roles.manage","users.manage","menu.view","menu.create","menu.update","menu.delete"]}'
 ```
 
 Quitar permisos de un rol:
@@ -338,4 +434,4 @@ curl -X DELETE http://localhost:3001/users/$USER_ID/roles/$ROLE_ID \
 
 ## Estado actual
 
-Esta base incluye configuracion inicial, scripts, frontend minimo, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, roles, permisos y usuarios.
+Esta base incluye configuracion inicial, scripts, frontend minimo, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, roles, permisos, usuarios y menu.

@@ -19,16 +19,18 @@ enum RoleScope {
 }
 
 model Restaurant {
-  id        String       @id @default(cuid())
-  name      String
-  slug      String       @unique
-  status    EntityStatus @default(ACTIVE)
-  branches  Branch[]
-  users     User[]
-  roles     Role[]
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  deletedAt DateTime?
+  id         String       @id @default(cuid())
+  name       String
+  slug       String       @unique
+  status     EntityStatus @default(ACTIVE)
+  branches   Branch[]
+  categories Category[]
+  products   Product[]
+  users      User[]
+  roles      Role[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  deletedAt  DateTime?
 
   @@index([status])
   @@index([deletedAt])
@@ -49,6 +51,49 @@ model Branch {
   @@unique([restaurantId, slug])
   @@index([restaurantId])
   @@index([status])
+  @@index([deletedAt])
+}
+
+model Category {
+  id           String       @id @default(cuid())
+  restaurantId String
+  name         String
+  description  String?
+  imageUrl     String?
+  status       EntityStatus @default(ACTIVE)
+  restaurant   Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  products     Product[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+
+  @@unique([restaurantId, name])
+  @@index([restaurantId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model Product {
+  id           String       @id @default(cuid())
+  restaurantId String
+  categoryId   String?
+  name         String
+  description  String?
+  price        Decimal      @db.Decimal(10, 2)
+  imageUrl     String?
+  isAvailable  Boolean      @default(true)
+  status       EntityStatus @default(ACTIVE)
+  restaurant   Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  category     Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+
+  @@index([restaurantId])
+  @@index([categoryId])
+  @@index([restaurantId, categoryId])
+  @@index([status])
+  @@index([isAvailable])
   @@index([deletedAt])
 }
 

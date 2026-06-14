@@ -4,6 +4,7 @@ import { AppController } from "./app.controller";
 import { AuthModule } from "./auth/auth.module";
 import { BranchesModule } from "./branches/branches.module";
 import { DatabaseModule } from "./database/database.module";
+import { MenuModule } from "./menu/menu.module";
 import { RolesModule } from "./roles/roles.module";
 import { RestaurantsModule } from "./restaurants/restaurants.module";
 import { UsersModule } from "./users/users.module";
@@ -17,6 +18,7 @@ import { UsersModule } from "./users/users.module";
     AuthModule,
     BranchesModule,
     DatabaseModule,
+    MenuModule,
     RolesModule,
     RestaurantsModule,
     UsersModule

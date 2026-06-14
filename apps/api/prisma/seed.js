@@ -22,6 +22,26 @@ const permissions = [
     key: "users.manage",
     name: "Manage users",
     description: "Manage users within a restaurant"
+  },
+  {
+    key: "menu.view",
+    name: "View menu",
+    description: "View restaurant menu categories and products"
+  },
+  {
+    key: "menu.create",
+    name: "Create menu items",
+    description: "Create restaurant menu categories and products"
+  },
+  {
+    key: "menu.update",
+    name: "Update menu items",
+    description: "Update restaurant menu categories and products"
+  },
+  {
+    key: "menu.delete",
+    name: "Delete menu items",
+    description: "Deactivate restaurant menu categories and products"
   }
 ];
 
