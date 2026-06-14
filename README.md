@@ -58,6 +58,47 @@ npm run dev:web
 - Health check API: http://localhost:3001/health
 - Prueba de base de datos: http://localhost:3001/database/health
 
+## Frontend administrativo
+
+El panel administrativo vive en `apps/web` y consume la API definida por
+`NEXT_PUBLIC_API_URL` en `.env`.
+
+Rutas disponibles:
+
+- `/login`
+- `/dashboard`
+- `/restaurants`
+- `/branches`
+- `/users`
+- `/roles`
+- `/permissions`
+- `/menu/categories`
+- `/menu/products`
+
+Para ejecutar solo el frontend:
+
+```bash
+npm run dev:web
+```
+
+Para ejecutar el sistema completo en local:
+
+```bash
+npm run db:up
+npm run prisma:migrate
+npm run prisma:seed
+npm run dev
+```
+
+El login usa `POST /auth/login`, guarda el `accessToken` en `localStorage` para
+desarrollo y lo envia en las peticiones protegidas como `Authorization: Bearer`.
+La pantalla `/permissions` muestra el catalogo sembrado por `prisma/seed.js`,
+porque el backend todavia no expone un endpoint `GET /permissions`.
+
+El seed actual crea permisos globales, pero no crea un usuario administrador.
+Para iniciar sesion en el panel necesitas tener un usuario existente con roles y
+permisos asignados en la base de datos.
+
 ## Base de datos
 
 Levantar PostgreSQL:
@@ -434,4 +475,4 @@ curl -X DELETE http://localhost:3001/users/$USER_ID/roles/$ROLE_ID \
 
 ## Estado actual
 
-Esta base incluye configuracion inicial, scripts, frontend minimo, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, roles, permisos, usuarios y menu.
+Esta base incluye configuracion inicial, scripts, frontend administrativo MVP, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, roles, permisos, usuarios y menu.
