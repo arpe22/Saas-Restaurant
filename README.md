@@ -247,6 +247,47 @@ curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_
   -H "Authorization: Bearer $TOKEN"
 ```
 
+Crear mesa:
+
+```bash
+curl -X POST http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/tables \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Mesa 1","capacity":4,"status":"AVAILABLE"}'
+```
+
+Listar mesas por sucursal:
+
+```bash
+curl http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/tables \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Editar mesa:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/tables/$TABLE_ID \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Mesa Terraza 1","capacity":6}'
+```
+
+Cambiar estado de mesa:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/tables/$TABLE_ID/status \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"status":"OCCUPIED"}'
+```
+
+Desactivar mesa:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/tables/$TABLE_ID/deactivate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 Crear usuario:
 
 ```bash
@@ -475,4 +516,4 @@ curl -X DELETE http://localhost:3001/users/$USER_ID/roles/$ROLE_ID \
 
 ## Estado actual
 
-Esta base incluye configuracion inicial, scripts, frontend administrativo MVP, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, roles, permisos, usuarios y menu.
+Esta base incluye configuracion inicial, scripts, frontend administrativo MVP, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, mesas, roles, permisos, usuarios y menu.

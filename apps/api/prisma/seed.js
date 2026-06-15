@@ -42,6 +42,16 @@ const permissions = [
     key: "menu.delete",
     name: "Delete menu items",
     description: "Deactivate restaurant menu categories and products"
+  },
+  {
+    key: "tables.view",
+    name: "View tables",
+    description: "View branch tables"
+  },
+  {
+    key: "tables.manage",
+    name: "Manage tables",
+    description: "Create, update, deactivate and change table status"
   }
 ];
 

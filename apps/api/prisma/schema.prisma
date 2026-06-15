@@ -18,6 +18,14 @@ enum RoleScope {
   RESTAURANT
 }
 
+enum TableStatus {
+  AVAILABLE
+  OCCUPIED
+  RESERVED
+  CLEANING
+  DISABLED
+}
+
 model Restaurant {
   id         String       @id @default(cuid())
   name       String
@@ -43,6 +51,7 @@ model Branch {
   slug         String
   status       EntityStatus @default(ACTIVE)
   restaurant   Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  tables       Table[]
   users        User[]
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
@@ -94,6 +103,23 @@ model Product {
   @@index([restaurantId, categoryId])
   @@index([status])
   @@index([isAvailable])
+  @@index([deletedAt])
+}
+
+model Table {
+  id        String      @id @default(cuid())
+  branchId  String
+  name      String
+  capacity  Int?
+  status    TableStatus @default(AVAILABLE)
+  branch    Branch      @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?
+
+  @@unique([branchId, name])
+  @@index([branchId])
+  @@index([status])
   @@index([deletedAt])
 }
 

@@ -7,6 +7,7 @@ import { DatabaseModule } from "./database/database.module";
 import { MenuModule } from "./menu/menu.module";
 import { RolesModule } from "./roles/roles.module";
 import { RestaurantsModule } from "./restaurants/restaurants.module";
+import { TablesModule } from "./tables/tables.module";
 import { UsersModule } from "./users/users.module";
 
 @Module({
@@ -21,6 +22,7 @@ import { UsersModule } from "./users/users.module";
     MenuModule,
     RolesModule,
     RestaurantsModule,
+    TablesModule,
     UsersModule
   ],
   controllers: [AppController]
