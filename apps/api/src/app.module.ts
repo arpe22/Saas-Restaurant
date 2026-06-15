@@ -5,6 +5,7 @@ import { AuthModule } from "./auth/auth.module";
 import { BranchesModule } from "./branches/branches.module";
 import { DatabaseModule } from "./database/database.module";
 import { MenuModule } from "./menu/menu.module";
+import { OrdersModule } from "./orders/orders.module";
 import { RolesModule } from "./roles/roles.module";
 import { RestaurantsModule } from "./restaurants/restaurants.module";
 import { TablesModule } from "./tables/tables.module";
@@ -20,6 +21,7 @@ import { UsersModule } from "./users/users.module";
     BranchesModule,
     DatabaseModule,
     MenuModule,
+    OrdersModule,
     RolesModule,
     RestaurantsModule,
     TablesModule,

@@ -50,6 +50,26 @@ export const PERMISSION_CATALOG: PermissionCatalogItem[] = [
     key: "tables.manage",
     name: "Manage tables",
     description: "Create, update, deactivate and change table status"
+  },
+  {
+    key: "orders.view",
+    name: "View orders",
+    description: "View branch orders"
+  },
+  {
+    key: "orders.create",
+    name: "Create orders",
+    description: "Create orders for a branch"
+  },
+  {
+    key: "orders.update",
+    name: "Update orders",
+    description: "Update order status and order items"
+  },
+  {
+    key: "orders.cancel",
+    name: "Cancel orders",
+    description: "Cancel active orders"
   }
 ];
 

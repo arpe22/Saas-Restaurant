@@ -448,6 +448,79 @@ curl -X PATCH http://localhost:3001/menu/products/$PRODUCT_ID/availability \
   -d '{"isAvailable":false}'
 ```
 
+Crear pedido:
+
+```bash
+curl -X POST http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"tableId\":\"$TABLE_ID\"}"
+```
+
+Listar pedidos por sucursal:
+
+```bash
+curl http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Ver pedido por ID:
+
+```bash
+curl http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders/$ORDER_ID \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Cambiar estado de pedido:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders/$ORDER_ID/status \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"status":"CONFIRMED"}'
+```
+
+Cancelar pedido:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders/$ORDER_ID/cancel \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Agregar producto al pedido:
+
+```bash
+curl -X POST http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders/$ORDER_ID/items \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"productId\":\"$PRODUCT_ID\",\"quantity\":2,\"note\":\"Sin cebolla\"}"
+```
+
+Cambiar cantidad de item:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders/$ORDER_ID/items/$ORDER_ITEM_ID/quantity \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"quantity":3}'
+```
+
+Agregar nota a item:
+
+```bash
+curl -X PATCH http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders/$ORDER_ID/items/$ORDER_ITEM_ID/note \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"note":"Sin salsa"}'
+```
+
+Quitar producto del pedido:
+
+```bash
+curl -X DELETE http://localhost:3001/restaurants/$RESTAURANT_ID/branches/$BRANCH_ID/orders/$ORDER_ID/items/$ORDER_ITEM_ID \
+  -H "Authorization: Bearer $TOKEN"
+```
+
 Crear rol:
 
 ```bash
@@ -516,4 +589,4 @@ curl -X DELETE http://localhost:3001/users/$USER_ID/roles/$ROLE_ID \
 
 ## Estado actual
 
-Esta base incluye configuracion inicial, scripts, frontend administrativo MVP, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, mesas, roles, permisos, usuarios y menu.
+Esta base incluye configuracion inicial, scripts, frontend administrativo MVP, conexion a PostgreSQL desde NestJS usando Prisma y modulos backend iniciales para autenticacion, restaurantes, sucursales, mesas, pedidos, roles, permisos, usuarios y menu.
